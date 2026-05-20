@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base resets ─────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-black text-text-primary font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ─── Custom scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #282828;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A84C;
+}
+
+/* ─── Utility classes ─────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gold-underline {
+    position: relative;
+  }
+  .gold-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 3rem;
+    height: 2px;
+    background: linear-gradient(135deg, #C9A84C, #E8C97A);
+    border-radius: 2px;
+  }
+
+  .gold-underline-center::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* ─── Component classes ───────────────────────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-sm font-sans font-semibold text-sm tracking-wide
+           bg-gold text-black
+           transition-all duration-300 ease-expo
+           hover:bg-gold-light hover:shadow-gold-md
+           active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-sm font-sans font-semibold text-sm tracking-wide
+           border border-gold text-gold
+           transition-all duration-300 ease-expo
+           hover:bg-gold hover:text-black
+           active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-sm font-sans font-medium text-sm tracking-wide
+           border border-border-light text-text-secondary
+           transition-all duration-300 ease-expo
+           hover:border-gold hover:text-gold
+           active:scale-95;
+  }
+
+  .card-base {
+    @apply bg-surface-1 border border-border rounded-sm overflow-hidden
+           transition-all duration-300 ease-expo
+           hover:border-gold/40 hover:shadow-card-hover;
+  }
+
+  .input-base {
+    @apply w-full bg-surface-2 border border-border rounded-sm
+           px-4 py-3 text-sm text-text-primary font-sans
+           placeholder:text-text-muted
+           focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+           transition-colors duration-200;
+  }
+
+  .section-padding {
+    @apply py-16 px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+}
