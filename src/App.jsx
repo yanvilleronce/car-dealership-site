@@ -5,22 +5,11 @@ import Footer from './components/layout/Footer'
 import { WhatsAppButton } from './components/ui/MobileCTA'
 import { MobileCTA } from './components/ui/MobileCTA'
 import Home from './pages/Home'
+import VehicleDetail from './pages/VehicleDetail'
+import InventoryPage from './pages/InventoryPage'
 import AdminPanel from './components/admin/AdminPanel'
 import LoginPage from './components/admin/LoginPage'
 import { checkAuth, login as authLogin, logout as authLogout } from './inventory/auth'
-
-// Placeholder pages — will be built as separate pages in future iterations
-function ComingSoon({ title }) {
-  return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-gold font-sans text-xs font-semibold tracking-[0.2em] uppercase mb-4">Bientôt disponible</p>
-        <h1 className="font-serif text-display-md text-white mb-4">{title}</h1>
-        <p className="text-text-muted font-sans text-sm">Cette page est en cours de développement.</p>
-      </div>
-    </main>
-  )
-}
 
 // Admin route wrapper — strips Navbar/Footer/CTAs for a clean workspace
 function AdminRoute({ authed, onLogin, onLogout }) {
@@ -65,10 +54,12 @@ export default function App() {
       <Route path="/*" element={
         <PublicLayout>
           <Routes>
-            <Route path="/"        element={<Home />} />
-            <Route path="/neufs"   element={<ComingSoon title="Véhicules Neufs" />} />
-            <Route path="/occasion" element={<ComingSoon title="Véhicules d'Occasion" />} />
-            <Route path="*"        element={<ComingSoon title="Page introuvable" />} />
+            <Route path="/"                    element={<Home />} />
+            <Route path="/inventaire"          element={<InventoryPage type="all" />} />
+            <Route path="/vehicules/neufs"     element={<InventoryPage type="new" />} />
+            <Route path="/vehicules/occasion"  element={<InventoryPage type="used" />} />
+            <Route path="/vehicule/:id"        element={<VehicleDetail />} />
+            <Route path="*"                    element={<InventoryPage type="all" />} />
           </Routes>
         </PublicLayout>
       } />

@@ -33,7 +33,7 @@ export function FeaturedNew() {
             transition={{ delay: 0.3 }}
             className="shrink-0"
           >
-            <Link to="/neufs" className="btn-outline text-sm py-2.5 px-5 whitespace-nowrap">
+            <Link to="/vehicules/neufs" className="btn-outline text-sm py-2.5 px-5 whitespace-nowrap">
               Tout voir ({newVehicles.length})
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -67,7 +67,7 @@ export function FeaturedUsed() {
             transition={{ delay: 0.3 }}
             className="shrink-0"
           >
-            <Link to="/occasion" className="btn-outline text-sm py-2.5 px-5 whitespace-nowrap">
+            <Link to="/vehicules/occasion" className="btn-outline text-sm py-2.5 px-5 whitespace-nowrap">
               Tout voir ({usedVehicles.length})
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />

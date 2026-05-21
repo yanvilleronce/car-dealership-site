@@ -5,8 +5,8 @@ import { DEALERSHIP_NAME, buildWhatsAppUrl } from '../../inventory/inventoryServ
 
 const navLinks = [
   { label: 'Accueil', href: '/' },
-  { label: 'Véhicules Neufs', href: '/neufs' },
-  { label: 'Occasion', href: '/occasion' },
+  { label: 'Véhicules Neufs', href: '/vehicules/neufs' },
+  { label: 'Occasion', href: '/vehicules/occasion' },
   { label: 'Financement', href: '#financement' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -107,7 +107,7 @@ export default function Navbar() {
               </svg>
               WhatsApp
             </a>
-            <Link to="/neufs" className="btn-primary text-xs py-2 px-4">
+            <Link to="/inventaire" className="btn-primary text-xs py-2 px-4">
               Voir l'inventaire
             </Link>
           </div>
@@ -186,7 +186,7 @@ export default function Navbar() {
               transition={{ delay: 0.35, duration: 0.3 }}
               className="p-6 pb-8 flex flex-col gap-3 border-t border-border"
             >
-              <Link to="/neufs" className="btn-primary w-full justify-center py-3.5 text-base">
+              <Link to="/inventaire" className="btn-primary w-full justify-center py-3.5 text-base">
                 Voir l'inventaire
               </Link>
               <a

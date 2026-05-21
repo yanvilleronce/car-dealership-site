@@ -105,7 +105,7 @@ export default function Hero() {
             variants={itemVariants}
             className="flex flex-wrap gap-3"
           >
-            <Link to="/neufs" className="btn-primary px-7 py-3.5 text-sm sm:text-base">
+            <Link to="/inventaire" className="btn-primary px-7 py-3.5 text-sm sm:text-base">
               Voir l'inventaire
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
