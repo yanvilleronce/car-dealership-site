@@ -45,6 +45,8 @@ function buildDealerParams({ type, contact, vehicle }) {
 
 function buildCustomerParams({ type, contact, vehicle }) {
   return {
+    to_email: contact.email || '',
+    customer_email: contact.email || '',
     form_type: type,
     customer_name: contact.name || '',
     vehicle_make: vehicle?.make || '',
@@ -63,8 +65,9 @@ export async function sendDealerNotification(params) {
   try {
     await emailjs.send(SERVICE_ID, DEALER_TEMPLATE_ID, buildDealerParams(params), PUBLIC_KEY)
     return true
-  } catch {
-    return false
+  } catch (error) {
+  console.error('Dealer email error:', error)
+  return false
   }
 }
 
@@ -73,7 +76,8 @@ export async function sendCustomerConfirmation(params) {
   try {
     await emailjs.send(SERVICE_ID, CUSTOMER_TEMPLATE_ID, buildCustomerParams(params), PUBLIC_KEY)
     return true
-  } catch {
-    return false
+  } catch (error) {
+  console.error('Customer email error:', error)
+  return false
   }
 }
