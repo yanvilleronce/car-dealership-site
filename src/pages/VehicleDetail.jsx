@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   getVehicleById,
@@ -21,6 +21,14 @@ export default function VehicleDetail() {
   const vehicle = getVehicleById(id)
   const [selectedImage, setSelectedImage] = useState(0)
   const [showReservation, setShowReservation] = useState(false)
+
+  useEffect(() => {
+    const imgs = vehicle?.images
+    if (!imgs || imgs.length <= 1) return
+    const preload = (src) => { const img = new Image(); img.src = src }
+    preload(imgs[(selectedImage + 1) % imgs.length])
+    preload(imgs[(selectedImage - 1 + imgs.length) % imgs.length])
+  }, [selectedImage, vehicle])
 
   if (!vehicle) {
     return (
@@ -71,6 +79,8 @@ export default function VehicleDetail() {
                 src={allImages[selectedImage]}
                 alt={`${make} ${model} ${year}`}
                 className="w-full h-full object-cover transition-opacity duration-300"
+                decoding="async"
+                fetchpriority="high"
                 width={1200}
                 height={750}
               />
@@ -86,7 +96,7 @@ export default function VehicleDetail() {
                       i === selectedImage ? 'border-gold' : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" width={160} height={112} loading="lazy" />
+                    <img src={img} alt="" className="w-full h-full object-cover" width={160} height={112} loading="lazy" decoding="async" />
                   </button>
                 ))}
               </div>

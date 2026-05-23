@@ -38,6 +38,7 @@ export default function VehicleAdminCard({ vehicle, onEdit, onDelete, onMarkSold
             alt={`${year} ${make} ${model}`}
             className={`w-full h-full object-cover ${isSold || isHidden ? 'opacity-40 grayscale' : ''}`}
             loading="lazy"
+            decoding="async"
             onError={(e) => { e.target.style.display = 'none' }}
           />
         ) : (

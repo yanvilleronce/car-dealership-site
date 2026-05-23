@@ -301,15 +301,8 @@ export const getBadgeLabel = (vehicle) => {
 }
 
 // ─── Contact helpers (dealership constants) ───────────────────────────────────
-export const WHATSAPP_NUMBER = '33780940002'
 export const PHONE_NUMBER    = '+33780940002'
 export const PHONE_DISPLAY   = '+33 7 80 94 00 02'
 export const EMAIL           = 'contact@automobile-rennais.fr'
 export const ADDRESS         = '7 Rue des Sillons, 35850 Parthenay-de-Bretagne'
 export const DEALERSHIP_NAME = 'AUTOMOBILE RENNAIS'
-
-export const buildWhatsAppUrl = (message) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-
-export const buildVehicleWhatsAppMessage = (vehicle) =>
-  `Bonjour, je suis intéressé(e) par la ${vehicle.make} ${vehicle.model} ${vehicle.year} à ${formatPrice(vehicle.price, vehicle.priceOnRequest)}. Pouvez-vous me donner plus d'informations ?`

@@ -74,8 +74,9 @@ export function useAdminInventory() {
   }, [])
 
   useEffect(() => {
-    window.addEventListener(INVENTORY_EVENT, () => setTick(t => t + 1))
-    return () => window.removeEventListener(INVENTORY_EVENT, () => {})
+    const handler = () => setTick(t => t + 1)
+    window.addEventListener(INVENTORY_EVENT, handler)
+    return () => window.removeEventListener(INVENTORY_EVENT, handler)
   }, [])
 
   // Wrapped mutations — each calls refresh after the operation

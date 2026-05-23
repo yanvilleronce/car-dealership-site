@@ -81,6 +81,7 @@ export default function ImageManager({ images = [], onChange }) {
               <img
                 src={url}
                 alt={`Photo ${idx + 1}`}
+                loading="lazy"
                 className="w-full h-full object-cover"
                 onError={() => markFailed(url)}
               />)}

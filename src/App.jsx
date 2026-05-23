@@ -2,11 +2,12 @@ import { useState, useCallback } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
-import { WhatsAppButton } from './components/ui/MobileCTA'
 import { MobileCTA } from './components/ui/MobileCTA'
 import Home from './pages/Home'
 import VehicleDetail from './pages/VehicleDetail'
 import InventoryPage from './pages/InventoryPage'
+import MentionsLegales from './pages/MentionsLegales'
+import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite'
 import AdminPanel from './components/admin/AdminPanel'
 import LoginPage from './components/admin/LoginPage'
 import { checkAuth, login as authLogin, logout as authLogout } from './inventory/auth'
@@ -24,7 +25,6 @@ function PublicLayout({ children }) {
       <Navbar />
       {children}
       <Footer />
-      <WhatsAppButton />
       <MobileCTA />
     </div>
   )
@@ -59,6 +59,8 @@ export default function App() {
             <Route path="/vehicules/neufs"     element={<InventoryPage type="new" />} />
             <Route path="/vehicules/occasion"  element={<InventoryPage type="used" />} />
             <Route path="/vehicule/:id"        element={<VehicleDetail />} />
+            <Route path="/mentions-legales"    element={<MentionsLegales />} />
+            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
             <Route path="*"                    element={<InventoryPage type="all" />} />
           </Routes>
         </PublicLayout>

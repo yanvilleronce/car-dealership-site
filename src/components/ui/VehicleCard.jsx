@@ -36,7 +36,7 @@ export default function VehicleCard({ vehicle, index = 0 }) {
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, delay: Math.min(index * 0.05, 0.35), ease: [0.16, 1, 0.3, 1] }}
       className="card-base group flex flex-col"
     >
       {/* Image */}
@@ -45,6 +45,7 @@ export default function VehicleCard({ vehicle, index = 0 }) {
           src={image}
           alt={`${year} ${make} ${model}`}
           loading="lazy"
+          decoding="async"
           width={800}
           height={500}
           className={`w-full h-full object-cover transition-transform duration-700 ease-expo group-hover:scale-105 ${isSold ? 'grayscale opacity-60' : ''}`}

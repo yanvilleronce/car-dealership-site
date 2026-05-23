@@ -2,12 +2,7 @@
 // All prices in EUR, mileage in km
 // Images from Unsplash (free, no attribution required for web use)
 
-export const WHATSAPP_NUMBER = '33780940002'
-export const PHONE_NUMBER = '+33780940002'
-export const PHONE_DISPLAY = '+33 7 80 94 00 02'
 export const EMAIL = 'contact@automobile-rennais.fr'
-export const ADDRESS = '7 Rue des Sillons, 35850 Parthenay-de-Bretagne'
-export const DEALERSHIP_NAME = 'AUTOMOBILE RENNAIS'
 
 export const newVehicles = [
   {
@@ -248,8 +243,4 @@ export const formatPrice = (price) =>
 export const formatMileage = (km) =>
   km === 0 ? '0 km' : new Intl.NumberFormat('fr-FR').format(km) + ' km'
 
-export const buildWhatsAppUrl = (message) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
-export const buildVehicleWhatsAppMessage = (vehicle) =>
-  `Bonjour, je suis intéressé(e) par la ${vehicle.make} ${vehicle.model} ${vehicle.year} à ${formatPrice(vehicle.price)}. Pouvez-vous me donner plus d'informations ?`

@@ -44,28 +44,32 @@ export default function ReservationModal({ vehicle, open, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (form._hp) return
+    if (form._hp || sending) return
 
     setSending(true)
     persistReservation()
 
-    const vehicleData = {
-      make: vehicle.make, model: vehicle.model, year: vehicle.year,
-      trim: vehicle.trim, priceFormatted: formatPrice(vehicle.price, vehicle.priceOnRequest),
-    }
-    const contact = { name: form.name, phone: form.phone, email: form.email, date: form.date, financing: form.financing, note: form.note }
-    const emailParams = { type: 'reservation', contact, vehicle: vehicleData }
+    try {
+      const vehicleData = {
+        make: vehicle.make, model: vehicle.model, year: vehicle.year,
+        trim: vehicle.trim, priceFormatted: formatPrice(vehicle.price, vehicle.priceOnRequest),
+      }
+      const contact = { name: form.name, phone: form.phone, email: form.email, date: form.date, financing: form.financing, note: form.note }
+      const emailParams = { type: 'reservation', contact, vehicle: vehicleData }
 
-    if (EMAILJS_CONFIGURED) {
-      const [dealerOk, customerOk] = await Promise.all([
-        sendDealerNotification(emailParams),
-        sendCustomerConfirmation(emailParams),
-      ])
-      setEmailResult(dealerOk || customerOk ? 'sent' : 'failed')
+      if (EMAILJS_CONFIGURED) {
+        const [dealerOk, customerOk] = await Promise.all([
+          sendDealerNotification(emailParams),
+          sendCustomerConfirmation(emailParams),
+        ])
+        setEmailResult(dealerOk || customerOk ? 'sent' : 'failed')
+      }
+    } catch {
+      setEmailResult('failed')
+    } finally {
+      setSending(false)
+      setSubmitted(true)
     }
-
-    setSending(false)
-    setSubmitted(true)
   }
 
   if (!vehicle) return null
@@ -222,34 +226,25 @@ export default function ReservationModal({ vehicle, open, onClose }) {
                     Ce versement n'implique aucune obligation d'achat. En cas de rétractation, l'acompte vous sera intégralement remboursé.
                   </p>
                 </div>
-                {(emailResult === 'failed' || !EMAILJS_CONFIGURED) && (
-                  <div className="flex flex-col sm:flex-row gap-3 mt-1 w-full max-w-xs">
-                    <a
-                      href="tel:+33780940002"
-                      className="btn-outline flex-1 justify-center text-sm py-2.5"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                      </svg>
-                      Nous appeler
-                    </a>
-                    <a
-                      href="mailto:contact@automobile-rennais.fr"
-                      className="btn-outline flex-1 justify-center text-sm py-2.5"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                      </svg>
-                      Nous contacter
-                    </a>
-                  </div>
+                {emailResult === 'failed' && (
+                  <p className="text-amber-400 font-sans text-xs max-w-xs">
+                    L'envoi automatique a rencontré un problème. Utilisez le lien ci-dessous pour nous contacter directement.
+                  </p>
                 )}
-                <button
-                  onClick={handleClose}
-                  className="btn-primary text-sm py-2.5 px-8 mt-1"
-                >
-                  OK
-                </button>
+                <div className="flex flex-col gap-2 mt-1 w-full max-w-xs">
+                  <button
+                    onClick={handleClose}
+                    className="btn-primary w-full justify-center text-sm py-2.5"
+                  >
+                    OK
+                  </button>
+                  <a
+                    href="mailto:contact@automobile-rennais.fr"
+                    className="btn-ghost w-full justify-center text-sm py-2"
+                  >
+                    Nous contacter
+                  </a>
+                </div>
               </motion.div>
             )}
           </motion.div>

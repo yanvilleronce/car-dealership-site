@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { DEALERSHIP_NAME, ADDRESS, PHONE_DISPLAY, EMAIL, buildWhatsAppUrl } from '../../inventory/inventoryService'
+import { DEALERSHIP_NAME, ADDRESS, PHONE_DISPLAY, EMAIL } from '../../inventory/inventoryService'
 
 const quickLinks = [
   { label: 'Accueil', href: '/' },
@@ -18,7 +18,6 @@ const vehicleTypes = [
 ]
 
 export default function Footer() {
-  const waUrl = buildWhatsAppUrl('Bonjour, je souhaite un renseignement sur vos véhicules.')
   const year = new Date().getFullYear()
 
   return (
@@ -109,12 +108,6 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <p className="text-text-muted font-sans text-xs mb-0.5">WhatsApp</p>
-                <a href={waUrl} target="_blank" rel="noopener noreferrer" className="text-text-secondary font-sans text-sm hover:text-gold transition-colors">
-                  +33 7 80 94 00 02
-                </a>
-              </li>
-              <li>
                 <p className="text-text-muted font-sans text-xs mb-0.5">Email</p>
                 <a href={`mailto:${EMAIL}`} className="text-text-secondary font-sans text-sm hover:text-gold transition-colors break-all">
                   {EMAIL}
@@ -136,11 +129,9 @@ export default function Footer() {
             © {year} {DEALERSHIP_NAME}. Tous droits réservés.
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-text-muted font-sans text-xs hover:text-gold transition-colors">Mentions légales</a>
+            <Link to="/mentions-legales" className="text-text-muted font-sans text-xs hover:text-gold transition-colors">Mentions légales</Link>
             <span className="text-border">·</span>
-            <a href="#" className="text-text-muted font-sans text-xs hover:text-gold transition-colors">Politique de confidentialité</a>
-            <span className="text-border">·</span>
-            <a href="#" className="text-text-muted font-sans text-xs hover:text-gold transition-colors">CGV</a>
+            <Link to="/politique-confidentialite" className="text-text-muted font-sans text-xs hover:text-gold transition-colors">Politique de confidentialité</Link>
           </div>
         </div>
       </div>
