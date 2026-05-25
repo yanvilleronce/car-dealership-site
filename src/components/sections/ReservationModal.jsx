@@ -6,7 +6,7 @@ import {
   EMAILJS_CONFIGURED,
   sendDealerNotification,
   sendCustomerConfirmation,
-} from '../../inventory/emailService'
+} from '../../config/emailjs'
 
 export default function ReservationModal({ vehicle, open, onClose }) {
   const [form, setForm] = useState({
