@@ -1,20 +1,23 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { PHONE_NUMBER } from '../../inventory/inventoryService'
+import { PHONE_NUMBER } from '../../constants'
 
-// ─── Mobile Sticky CTA Bar ─────────────────────────────────────────────────────
+const DISMISS_KEY = 'ar_cta_dismissed_at'
+const COOLDOWN_MS = 30 * 60 * 1000
+
 export function MobileCTA() {
   const [visible, setVisible] = useState(true)
 
-  // Hide after user scrolls back to very top (hero has its own CTAs)
   useEffect(() => {
-    const dismissed = sessionStorage.getItem('mobileCTAdismissed')
-    if (dismissed) setVisible(false)
+    const at = localStorage.getItem(DISMISS_KEY)
+    if (at && Date.now() - Number(at) < COOLDOWN_MS) {
+      setVisible(false)
+    }
   }, [])
 
   const dismiss = () => {
     setVisible(false)
-    sessionStorage.setItem('mobileCTAdismissed', '1')
+    localStorage.setItem(DISMISS_KEY, String(Date.now()))
   }
 
   if (!visible) return null

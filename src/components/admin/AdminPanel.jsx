@@ -26,6 +26,7 @@ import VehicleAdminCard from './VehicleAdminCard'
 import VehicleForm from './VehicleForm'
 import CSVUploader from './CSVUploader'
 import ReservationList from './ReservationList'
+import InsightsDashboard from './InsightsDashboard'
 import {
   exportInventoryJSON,
   STATUS_LABELS,
@@ -117,6 +118,14 @@ export default function AdminPanel({ onLogout }) {
               }`}
             >
               Réservations
+            </button>
+            <button
+              onClick={() => setView(view === 'insights' ? 'list' : 'insights')}
+              className={`text-xs font-sans font-medium transition-colors px-2 py-1 rounded-sm ${
+                view === 'insights' ? 'text-gold bg-gold/10' : 'text-text-muted hover:text-gold'
+              }`}
+            >
+              Insights
             </button>
             <div className="w-px h-5 bg-border mx-1" />
             <button
@@ -293,6 +302,11 @@ export default function AdminPanel({ onLogout }) {
         {/* ── View: RESERVATIONS ──────────────────────────────────────────── */}
         {view === 'reservations' && (
           <ReservationList onBack={() => setView('list')} />
+        )}
+
+        {/* ── View: INSIGHTS ──────────────────────────────────────────── */}
+        {view === 'insights' && (
+          <InsightsDashboard onBack={() => setView('list')} />
         )}
 
         {/* ── View: CSV ──────────────────────────────────────────────────── */}

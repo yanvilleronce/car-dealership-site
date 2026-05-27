@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import SectionHeading from '../ui/SectionHeading'
-import { EMAIL } from '../../inventory/inventoryService'
+import { EMAIL } from '../../constants'
 
 const benefits = [
   {

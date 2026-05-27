@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import SectionHeading from '../ui/SectionHeading'
-import { EMAIL, PHONE_DISPLAY } from '../../inventory/inventoryService'
+import { EMAIL, PHONE_DISPLAY } from '../../constants'
+import { track } from '../../utils/track'
 import {
   EMAILJS_CONFIGURED,
   sendDealerNotification,
@@ -40,6 +41,7 @@ export default function InquiryForm() {
     } finally {
       setSending(false)
       setSubmitted(true)
+      track('form_inquiry_success', { vehicle: form.vehicle })
     }
   }
 
@@ -125,7 +127,7 @@ export default function InquiryForm() {
                     </div>
                     <div>
                       <label htmlFor="inq-phone" className="block text-xs font-sans font-medium text-text-secondary mb-1.5">Téléphone</label>
-                      <input id="inq-phone" name="phone" type="tel" placeholder="+33 6 XX XX XX XX" value={form.phone} onChange={handleChange} className="input-base" />
+                      <input id="inq-phone" name="phone" type="tel" required placeholder="+33 6 XX XX XX XX" value={form.phone} onChange={handleChange} className="input-base" />
                     </div>
                   </div>
 
@@ -155,7 +157,7 @@ export default function InquiryForm() {
                   <div className="flex flex-col mt-1">
                     <button
                       type="submit"
-                      disabled={!form.name || !form.email || sending}
+                      disabled={!form.name || !form.phone || !form.email || sending}
                       className="btn-primary w-full justify-center py-3.5 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       {sending ? 'Envoi en cours…' : 'Envoyer la demande'}

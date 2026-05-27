@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { formatPrice, formatMileage, getBadgeLabel } from '../../inventory/inventoryService'
-import ReservationModal from '../sections/ReservationModal'
+import { track } from '../../utils/track'
+
+const ReservationModal = lazy(() => import('../sections/ReservationModal'))
 
 const badgeStyles = {
   'Nouveau':  'bg-gold text-black',
@@ -128,7 +130,7 @@ export default function VehicleCard({ vehicle, index = 0 }) {
         {/* Actions */}
         <div className="flex gap-2 mt-auto pt-1">
           <button
-            onClick={() => setShowReservation(true)}
+            onClick={() => { track('click_reserve', { vehicleId: vehicle.id, make: vehicle.make, model: vehicle.model }); setShowReservation(true) }}
             className="btn-primary flex-1 text-xs sm:text-sm py-2.5"
           >
             <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -145,7 +147,7 @@ export default function VehicleCard({ vehicle, index = 0 }) {
         </div>
       </div>
 
-      <ReservationModal vehicle={vehicle} open={showReservation} onClose={() => setShowReservation(false)} />
+      <Suspense fallback={null}><ReservationModal vehicle={vehicle} open={showReservation} onClose={() => setShowReservation(false)} /></Suspense>
     </motion.article>
   )
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { formatPrice } from '../../inventory/inventoryService'
 import { addReservation } from '../../inventory/reservationService'
+import { track } from '../../utils/track'
 import {
   EMAILJS_CONFIGURED,
   sendDealerNotification,
@@ -10,7 +11,7 @@ import {
 
 export default function ReservationModal({ vehicle, open, onClose }) {
   const [form, setForm] = useState({
-    name: '', phone: '', email: '', date: '', financing: '', note: '', _hp: '',
+    name: '', phone: '', email: '', date: '', financing: 'À discuter', note: '', _hp: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
@@ -19,7 +20,7 @@ export default function ReservationModal({ vehicle, open, onClose }) {
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
 
   const resetForm = () => {
-    setForm({ name: '', phone: '', email: '', date: '', financing: '', note: '', _hp: '' })
+    setForm({ name: '', phone: '', email: '', date: '', financing: 'À discuter', note: '', _hp: '' })
     setSubmitted(false)
     setSending(false)
     setEmailResult(null)
@@ -48,6 +49,7 @@ export default function ReservationModal({ vehicle, open, onClose }) {
 
     setSending(true)
     persistReservation()
+    track('form_reservation_success', { vehicleId: vehicle.id, vehicle: `${vehicle.make} ${vehicle.model}` })
 
     try {
       const vehicleData = {
@@ -155,11 +157,10 @@ export default function ReservationModal({ vehicle, open, onClose }) {
                     </div>
                     <div>
                       <label htmlFor="res-financing" className="block text-xs font-sans font-medium text-text-secondary mb-1.5">Financement nécessaire ? *</label>
-                      <select id="res-financing" name="financing" required value={form.financing} onChange={handleChange} className="input-base cursor-pointer">
-                        <option value="">Sélectionnez…</option>
+                      <select id="res-financing" name="financing" value={form.financing} onChange={handleChange} className="input-base cursor-pointer">
+                        <option value="À discuter">À discuter</option>
                         <option value="Oui">Oui</option>
                         <option value="Non">Non</option>
-                        <option value="À discuter">À discuter</option>
                       </select>
                     </div>
                   </div>
@@ -179,7 +180,7 @@ export default function ReservationModal({ vehicle, open, onClose }) {
 
                   <button
                     type="submit"
-                    disabled={sending || !form.name || !form.phone || !form.email || !form.financing}
+                    disabled={sending || !form.name || !form.phone || !form.email}
                     className="btn-primary w-full justify-center py-3 text-sm mt-1 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {sending ? (

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { DEALERSHIP_NAME } from '../../inventory/inventoryService'
-
 const navLinks = [
   { label: 'Accueil', href: '/' },
   { label: 'Véhicules Neufs', href: '/vehicules/neufs' },
@@ -45,7 +43,7 @@ export default function Navbar() {
         const el = document.querySelector(href)
         if (el) el.scrollIntoView({ behavior: 'smooth' })
       } else {
-        navigate('/' + href)
+        navigate('/#' + href.slice(1))
       }
       setMenuOpen(false)
     }

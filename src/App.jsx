@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
+import { track } from './utils/track'
 import Footer from './components/layout/Footer'
 import { MobileCTA } from './components/ui/MobileCTA'
 import Home from './pages/Home'
@@ -8,9 +9,10 @@ import VehicleDetail from './pages/VehicleDetail'
 import InventoryPage from './pages/InventoryPage'
 import MentionsLegales from './pages/MentionsLegales'
 import PolitiqueConfidentialite from './pages/PolitiqueConfidentialite'
-import AdminPanel from './components/admin/AdminPanel'
-import LoginPage from './components/admin/LoginPage'
 import { checkAuth, login as authLogin, logout as authLogout } from './inventory/auth'
+
+const AdminPanel = lazy(() => import('./components/admin/AdminPanel'))
+const LoginPage = lazy(() => import('./components/admin/LoginPage'))
 
 // Admin route wrapper — strips Navbar/Footer/CTAs for a clean workspace
 function AdminRoute({ authed, onLogin, onLogout }) {
@@ -32,6 +34,11 @@ function PublicLayout({ children }) {
 
 export default function App() {
   const [authed, setAuthed] = useState(() => checkAuth())
+  const location = useLocation()
+
+  useEffect(() => {
+    track('page_view', { pathname: location.pathname })
+  }, [location.pathname])
 
   const handleLogin = useCallback((email, password) => {
     const ok = authLogin(email, password)
@@ -47,8 +54,8 @@ export default function App() {
   return (
     <Routes>
       {/* Admin — no nav/footer/CTAs */}
-      <Route path="/admin" element={<AdminRoute authed={authed} onLogin={handleLogin} onLogout={handleLogout} />} />
-      <Route path="/admin/*" element={<AdminRoute authed={authed} onLogin={handleLogin} onLogout={handleLogout} />} />
+      <Route path="/admin" element={<Suspense fallback={null}><AdminRoute authed={authed} onLogin={handleLogin} onLogout={handleLogout} /></Suspense>} />
+      <Route path="/admin/*" element={<Suspense fallback={null}><AdminRoute authed={authed} onLogin={handleLogin} onLogout={handleLogout} /></Suspense>} />
 
       {/* Public site */}
       <Route path="/*" element={

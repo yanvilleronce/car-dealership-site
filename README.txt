@@ -1,0 +1,1 @@
+“This system is frozen at v1.0. Only critical bug fixes allowed. No structural changes.”

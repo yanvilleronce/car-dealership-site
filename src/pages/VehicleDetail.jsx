@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useState, useEffect, lazy, Suspense } from 'react'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import {
   getVehicleById,
   formatPrice,
   formatMileage,
   getBadgeLabel,
 } from '../inventory/inventoryService'
-import ReservationModal from '../components/sections/ReservationModal'
+import { track } from '../utils/track'
+
+const ReservationModal = lazy(() => import('../components/sections/ReservationModal'))
 
 const badgeStyles = {
   'Nouveau':  'bg-gold text-black',
@@ -18,6 +20,7 @@ const badgeStyles = {
 
 export default function VehicleDetail() {
   const { id } = useParams()
+  const location = useLocation()
   const vehicle = getVehicleById(id)
   const [selectedImage, setSelectedImage] = useState(0)
   const [showReservation, setShowReservation] = useState(false)
@@ -29,6 +32,16 @@ export default function VehicleDetail() {
     preload(imgs[(selectedImage + 1) % imgs.length])
     preload(imgs[(selectedImage - 1 + imgs.length) % imgs.length])
   }, [selectedImage, vehicle])
+
+  useEffect(() => {
+    if (!vehicle) return
+    track('page_view', {
+      vehicleId: vehicle.id,
+      make: vehicle.make,
+      model: vehicle.model,
+      pathname: location.pathname,
+    })
+  }, [vehicle, location.pathname])
 
   if (!vehicle) {
     return (
@@ -198,18 +211,8 @@ export default function VehicleDetail() {
 
             {/* ── CTAs ──────────────────────────────────────────── */}
             <div className="flex flex-col gap-3">
-              <Link
-                to="/#financement"
-                className="btn-outline w-full justify-center py-3 text-sm"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
-                </svg>
-                Demander un financement
-              </Link>
-
               <button
-                onClick={() => setShowReservation(true)}
+                onClick={() => { track('click_reserve', { vehicleId: vehicle.id, make: vehicle.make, model: vehicle.model }); setShowReservation(true) }}
                 className="btn-primary w-full justify-center py-3 text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -219,7 +222,19 @@ export default function VehicleDetail() {
               </button>
 
               <Link
+                to="/#financement"
+                onClick={() => track('click_financing', { vehicleId: vehicle.id, make: vehicle.make, model: vehicle.model })}
+                className="btn-outline w-full justify-center py-3 text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                </svg>
+                Demander un financement
+              </Link>
+
+              <Link
                 to="/#contact"
+                onClick={() => track('click_contact')}
                 className="btn-outline w-full justify-center py-3 text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -232,7 +247,7 @@ export default function VehicleDetail() {
         </div>
       </div>
 
-      <ReservationModal vehicle={vehicle} open={showReservation} onClose={() => setShowReservation(false)} />
+      <Suspense fallback={null}><ReservationModal vehicle={vehicle} open={showReservation} onClose={() => setShowReservation(false)} /></Suspense>
     </main>
   )
 }

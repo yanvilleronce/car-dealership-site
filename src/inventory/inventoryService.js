@@ -300,9 +300,5 @@ export const getBadgeLabel = (vehicle) => {
   return 'Occasion'
 }
 
-// ─── Contact helpers (dealership constants) ───────────────────────────────────
-export const PHONE_NUMBER    = '+33780940002'
-export const PHONE_DISPLAY   = '+33 7 80 94 00 02'
-export const EMAIL           = 'contact@automobile-rennais.fr'
-export const ADDRESS         = '7 Rue des Sillons, 35850 Parthenay-de-Bretagne'
-export const DEALERSHIP_NAME = 'AUTOMOBILE RENNAIS'
+// ─── Re-export dealership constants for backward compatibility ────────────────
+export { PHONE_NUMBER, PHONE_DISPLAY, EMAIL, ADDRESS, DEALERSHIP_NAME } from '../constants'

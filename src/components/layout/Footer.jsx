@@ -1,20 +1,20 @@
 import { Link } from 'react-router-dom'
-import { DEALERSHIP_NAME, ADDRESS, PHONE_DISPLAY, EMAIL } from '../../inventory/inventoryService'
+import { DEALERSHIP_NAME, PHONE_DISPLAY, EMAIL } from '../../constants'
 
 const quickLinks = [
   { label: 'Accueil', href: '/' },
-  { label: 'Véhicules Neufs', href: '/neufs' },
-  { label: 'Véhicules d\'Occasion', href: '/occasion' },
+  { label: 'Véhicules Neufs', href: '/vehicules/neufs' },
+  { label: 'Véhicules d\'Occasion', href: '/vehicules/occasion' },
   { label: 'Financement', href: '/#financement' },
   { label: 'Contact', href: '/#contact' },
 ]
 
 const vehicleTypes = [
-  { label: 'Voitures de Sport', href: '/occasion' },
-  { label: 'SUV Luxe', href: '/occasion' },
-  { label: 'Berlines Prestige', href: '/occasion' },
-  { label: 'Véhicules Électriques', href: '/neufs' },
-  { label: 'Certifiés Occasion', href: '/occasion' },
+  { label: 'Voitures de Sport', href: '/vehicules/occasion' },
+  { label: 'SUV Luxe', href: '/vehicules/occasion' },
+  { label: 'Berlines Prestige', href: '/vehicules/occasion' },
+  { label: 'Véhicules Électriques', href: '/vehicules/neufs' },
+  { label: 'Certifiés Occasion', href: '/vehicules/occasion' },
 ]
 
 export default function Footer() {
